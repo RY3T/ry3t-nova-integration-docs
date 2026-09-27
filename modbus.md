@@ -62,6 +62,14 @@ what.
 | Function codes | `FC03` read, `FC06` write single, `FC16` write multiple           |
 | Base addressing| `0` (protocol address `0` = register `40001`)                     |
 
+Register numbers in this document are **decimal protocol addresses**. If your
+client counts registers from `40001`, add `40001`: register `10` is `40011`.
+
+> **Don't write register numbers with a leading zero in code.** C, Java, Go,
+> PHP and JavaScript treat `010` as an octal number, so a read of `010`
+> actually fetches register `8`, and `015` fetches register `13`. Registers `0 – 7`
+> and everything from `100` up are unaffected, so the mistake is easy to miss.
+
 ## Controlling the Nova
 
 This is the short version — everything you need to start, stop, and set the
@@ -109,7 +117,9 @@ Stop the cluster
   miners and reports the resulting per-miner allocation in
   `Miner*.TargetPower_W`, and the combined draw in `ActualPower_W`. Targets
   between `NameplateMinPower_W` and `NameplateMaxPower_W` (registers `15`/`14`)
-  are honoured; targets below the minimum idle the cluster.
+  are honoured. The Nova runs as few miners as it needs, so a low target runs
+  one miner and idles the rest; only targets below `NameplateMinPower_W` idle
+  the whole cluster.
 
 To read what the cluster is doing, start with `SystemStatus` (register `0`),
 `ActualPower_W` (`6`), and `TotalHashrate_THs` (`7 – 8`). The full register map
@@ -169,7 +179,7 @@ The cluster as a whole — the view most integrations need.
 | `12`    | `MinersMining`        | `UINT16`  | Miners currently producing shares.                                         |
 | `13`    | `PoolConnected`       | `UINT16`  | `1` = every online miner is connected to its pool, `0` = at least one is not.|
 | `14`    | `NameplateMaxPower_W` | `UINT16`  | Highest power target the cluster can accept (sum of online miners' max).    |
-| `15`    | `NameplateMinPower_W` | `UINT16`  | Lowest non-zero power the cluster will run at. Targets below this idle some miners. |
+| `15`    | `NameplateMinPower_W` | `UINT16`  | Lowest non-zero power target the cluster will run at: the smallest minimum of any online miner (one miner running, the rest idle). Targets below this idle the whole cluster. |
 | `16`    | `PrimaryMinerIndex`   | `UINT16`  | Index of the miner that serves this Modbus endpoint (`0`).                  |
 | `17 – 31`| reserved             | —         |                                                                             |
 
