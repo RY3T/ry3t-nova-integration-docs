@@ -9,7 +9,7 @@ RY3T builds **Bitcoin heaters** — appliances that turn electricity into useful
 heat *and* Bitcoin at the same time. The heat is used for hot water and space
 heating; the mining makes the energy productive instead of simply burning it.
 
-A **Nova** is the clustered model: up to four miners presented and controlled
+A **Nova** is the clustered model: one to three miners presented and controlled
 as a **single heating appliance**. You give it one power target and it
 distributes the load across its miners, reporting back the combined and
 per-miner status.
@@ -38,6 +38,12 @@ temperatures, fan state, pool connectivity, uptime, and error status.
 The Modbus TCP interface is the recommended integration path for Loxone,
 PLCs, building EMS, and PV controllers today. See **[modbus.md](modbus.md)**
 for the full register map, status and error codes, and control examples.
+
+## Platform guides
+
+| Platform      | Guide                                                  |
+|---------------|--------------------------------------------------------|
+| Solar Manager | [solar-manager-de.md](solar-manager-de.md) (Deutsch)   |
 
 ## What you can do over the interface
 

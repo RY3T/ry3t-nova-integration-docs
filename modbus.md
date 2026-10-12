@@ -6,7 +6,7 @@ etc.) can read its status and control it.
 
 ## What a Nova is, on the wire
 
-A Nova is a **cluster of up to four miners presented as a single device**.
+A Nova is a **cluster of one to three miners presented as a single device**.
 You talk to one Modbus endpoint; it reports the combined state of the cluster
 plus a per-miner breakdown, and accepts one power target that it distributes
 across its miners.
@@ -20,7 +20,7 @@ across its miners.
                          ▼
         ┌─────────────────────────────────┐
         │            RY3T Nova             │
-        │   one device · 1–4 miners        │
+        │   one device · 1–3 miners        │
         └─────────────────────────────────┘
 ```
 
@@ -174,7 +174,7 @@ The cluster as a whole — the view most integrations need.
 | `6`     | `ActualPower_W`       | `UINT16`  | Best-known combined power draw of the cluster (W). May be estimated.        |
 | `7 – 8` | `TotalHashrate_THs`   | `FLOAT32` | Combined hashrate of the cluster (TH/s).                                    |
 | `9`     | `UptimeMinutes`       | `UINT16`  | Minutes since the cluster first started mining. Saturates at `0xFFFE`.      |
-| `10`    | `MinerCount`          | `UINT16`  | Number of miners in this cluster (`1 – 4`).                                 |
+| `10`    | `MinerCount`          | `UINT16`  | Number of miners in this cluster (`1 – 3`).                                 |
 | `11`    | `MinersOnline`        | `UINT16`  | Miners currently reachable and healthy.                                     |
 | `12`    | `MinersMining`        | `UINT16`  | Miners currently producing shares.                                         |
 | `13`    | `PoolConnected`       | `UINT16`  | `1` = every online miner is connected to its pool, `0` = at least one is not.|
@@ -185,7 +185,9 @@ The cluster as a whole — the view most integrations need.
 
 ## Block 1 — Per-miner data
 
-Each miner occupies a 32-register block. Miner `n` starts at `100 + 32·n`:
+Each miner occupies a 32-register block. Miner `n` starts at `100 + 32·n`.
+The map has four slots; current Nova models have up to three miners, so
+slot 3 reads as `NotConfigured`:
 
 | Miner | Range       |
 |-------|-------------|
