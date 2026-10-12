@@ -21,7 +21,8 @@ Die Konfiguration der Software auf dem RY3T Nova erfolgt durch RY3T direkt.
 
 ### Gerät hinzufügen
 
-Fügen Sie ein neues "Gerät hinzufügen" und wählen Sie aus der Liste den "RY3T Nova".
+Fügen Sie ein neues "Gerät hinzufügen" und wählen Sie "Warmwasser".
+Wählen Sie danach aus der Liste den "RY3T Nova".
 Geben Sie die IP-Adresse des RY3T Nova ein.
 Parametrieren Sie das Gerät wie gewünscht.
 Speichern Sie danach die Einstellungen.
